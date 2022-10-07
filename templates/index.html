@@ -69,7 +69,7 @@
                 color: #000000;
               "
             />
-            <button onclick="search()" class="search">查询</button><br />
+            <button onclick="patient_mess.action='patient_mess/search';patient_mess.submit();" class="search" type="submit">查询</button><br />
             <input type="checkbox" name="anmo" />启用按摩仪<br />
             建议治疗时长：<input
               type="text"
@@ -96,8 +96,8 @@
               placeholder="备注："
             ></textarea
             ><br />
-            <button type="reset" class="reset">重置</button>
-            <button onclick="submit()" class="submit">提交</button>
+            <button onclick="reset()" class="reset" type="button">重置</button>
+            <button onclick="submit()" class="submit" type="button">提交</button>
           </form>
         </div>
       </div>
@@ -127,6 +127,7 @@
                 name="level"
                 style="
                   width: 50px;
+
                   border: none;
                   border-bottom: 2px rgb(121, 121, 121) solid;
                   background-color: transparent;
@@ -309,15 +310,3 @@
     </div>
   </body>
 </html>
-
-<script type="text/javascript">
-  function submit() {
-    document.patient_mess.action="/patient_mess/submit"
-    document.patient_mess.submit();
-  }
-
-  function search() {
-    document.patient_mess.action="/patient_mess/search"
-    document.patient_mess.submit();
-  }
-</script>
