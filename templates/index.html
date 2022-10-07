@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>医疗界面</title>
+    <script src="jquery-3.6.0.js" type="text/javascript"></script>
+    <link type="text/css" rel="stylesheet" href="{{url_for('static',filename='医疗界面.css')}}" />
+  </head>
+
+  <body>
+<!-- 插入到页面标题上方 -->
+{% for message in get_flashed_messages() %}
+    <div class="alert">{{ message }}</div>
+{% endfor %}
+    <!-- 版心 -->
+    <div class="w">
+      <!-- 头部 -->
+      <div class="header">
+        <h1>在线疼痛检测与诊断平台</h1>
+        <h2>Shaanxi University of Science & Technology</h2>
+      </div>
+      <!-- 导航栏 -->
+      <div class="nav">
+        <!-- href指向你要跳转的页面就可以 _blank意思是另起一页显示-->
+        <a href="#" target="_blank">Welcome</a>
+        <a href="#">People</a>
+        <a href="#">Papers</a>
+        <a href="#">Projects</a>
+        <a href="#">Conference</a>
+      </div>
+      <!-- 分割线 -->
+      <div class="line"></div>
+      <!-- 内容 -->
+      <form name="patient_mess" method="get" action="">
+      <div class="content">
+        <div class="content-left">
+          <h1>疼痛表情快照</h1>
+          <img name="curimg" src="{{ url_for('static',filename='read_from_mysql.png') }}" alt="" onerror="this.src='{{ url_for('static',filename='疼痛表情.png')}}';this.onerror=null"/>
+
+          <!-- <button class="shibie">开始识别</button> -->
+        </div>
+        <div class="content-right">
+            <input
+              type="text"
+              name="curname"
+              value="{{ res.name }}"
+              placeholder="患者姓名："
+              style="
+                width: 120px;
+                border: none;
+                border-bottom: 2px rgb(121, 121, 121) solid;
+                background-color: transparent;
+                color: #000000;
+              "
+            />
+            <input type="radio" name="sex" value="male" />男
+            <input type="radio" name="sex" value="female" />女 <br />
+            疼痛等级：<input
+              type="text"
+              name="level"
+              value="{{ res.painlevel }}"
+              style="
+                width: 50px;
+                border: none;
+                border-bottom: 2px rgb(121, 121, 121) solid;
+                background-color: transparent;
+                color: #000000;
+              "
+            />
+            <button onclick="search()" class="search">查询</button><br />
+            <input type="checkbox" name="anmo" />启用按摩仪<br />
+            建议治疗时长：<input
+              type="text"
+              name="minute"
+              style="
+                width: 60px;
+                border: none;
+                border-bottom: 2px rgb(121, 121, 121) solid;
+                background-color: transparent;
+                color: #000000;
+              "
+            />分钟<br />
+            <fieldset>
+              <legend>止痛剂选择：</legend>
+              <input type="radio" name="m1" />酮铬酸
+              <input type="radio" name="m1" />氯诺昔康<br />
+              <input type="radio" name="m1" />保泰松
+              <input type="radio" name="m1" />氯芬太尼<br />
+            </fieldset>
+            <textarea
+              class="beizhu"
+              cols="30"
+              rows="4"
+              placeholder="备注："
+            ></textarea
+            ><br />
+            <button type="reset" class="reset">重置</button>
+            <button onclick="submit()" class="submit">提交</button>
+          </form>
+        </div>
+      </div>
+      <!-- 分割线 -->
+      <div class="line"></div>
+      <!-- 底部 -->
+      <div class="footer">
+        <div>
+          <button class="match">相似案例匹配</button>
+        </div>
+        <ul>
+          <li>
+            <form action="">
+              患者性别：<input
+                type="text"
+                name="sex"
+                style="
+                  width: 50px;
+                  border: none;
+                  border-bottom: 2px rgb(121, 121, 121) solid;
+                  background-color: transparent;
+                  color: #000000;
+                "
+              /><br />
+              疼痛等级：<input
+                type="text"
+                name="level"
+                style="
+                  width: 50px;
+                  border: none;
+                  border-bottom: 2px rgb(121, 121, 121) solid;
+                  background-color: transparent;
+                  color: #000000;
+                "
+              /><br />
+              是否使用止痛仪：<input
+                type="text"
+                name="judge"
+                style="
+                  width: 50px;
+                  border: none;
+                  border-bottom: 2px rgb(121, 121, 121) solid;
+                  background-color: transparent;
+                  color: #000000;
+                "
+              /><br />
+              推荐使用药剂：<input
+                type="text"
+                name="medicine"
+                style="
+                  width: 50px;
+                  border: none;
+                  border-bottom: 2px rgb(121, 121, 121) solid;
+                  background-color: transparent;
+                  color: #000000;
+                "
+              /><br />
+              使用剂量：<input
+                type="text"
+                name="level"
+                style="
+                  width: 50px;
+                  border: none;
+                  border-bottom: 2px rgb(121, 121, 121) solid;
+                  background-color: transparent;
+                  color: #000000;
+                "
+              /><br />
+              <textarea
+                class="beizhu"
+                cols="20"
+                rows="3"
+                placeholder="备注："
+              ></textarea>
+            </form>
+          </li>
+          <li>
+            <form action="">
+              患者性别：<input
+                type="text"
+                name="sex"
+                style="
+                  width: 50px;
+                  border: none;
+                  border-bottom: 2px rgb(121, 121, 121) solid;
+                  background-color: transparent;
+                  color: #000000;
+                "
+              /><br />
+              疼痛等级：<input
+                type="text"
+                name="level"
+                style="
+                  width: 50px;
+                  border: none;
+                  border-bottom: 2px rgb(121, 121, 121) solid;
+                  background-color: transparent;
+                  color: #000000;
+                "
+              /><br />
+              是否使用止痛仪：<input
+                type="text"
+                name="judge"
+                style="
+                  width: 50px;
+                  border: none;
+                  border-bottom: 2px rgb(121, 121, 121) solid;
+                  background-color: transparent;
+                  color: #000000;
+                "
+              /><br />
+              推荐使用药剂：<input
+                type="text"
+                name="medicine"
+                style="
+                  width: 50px;
+                  border: none;
+                  border-bottom: 2px rgb(121, 121, 121) solid;
+                  background-color: transparent;
+                  color: #000000;
+                "
+              /><br />
+              使用剂量：<input
+                type="text"
+                name="level"
+                style="
+                  width: 50px;
+                  border: none;
+                  border-bottom: 2px rgb(121, 121, 121) solid;
+                  background-color: transparent;
+                  color: #000000;
+                "
+              /><br />
+              <textarea
+                class="beizhu"
+                cols="20"
+                rows="3"
+                placeholder="备注："
+              ></textarea>
+            </form>
+          </li>
+          <li>
+            <form action="">
+              患者性别：<input
+                type="text"
+                name="sex"
+                style="
+                  width: 50px;
+                  border: none;
+                  border-bottom: 2px rgb(121, 121, 121) solid;
+                  background-color: transparent;
+                  color: #000000;
+                "
+              /><br />
+              疼痛等级：<input
+                type="text"
+                name="level"
+                style="
+                  width: 50px;
+                  border: none;
+                  border-bottom: 2px rgb(121, 121, 121) solid;
+                  background-color: transparent;
+                  color: #000000;
+                "
+              /><br />
+              是否使用止痛仪：<input
+                type="text"
+                name="judge"
+                style="
+                  width: 50px;
+                  border: none;
+                  border-bottom: 2px rgb(121, 121, 121) solid;
+                  background-color: transparent;
+                  color: #000000;
+                "
+              /><br />
+              推荐使用药剂：<input
+                type="text"
+                name="medicine"
+                style="
+                  width: 50px;
+                  border: none;
+                  border-bottom: 2px rgb(121, 121, 121) solid;
+                  background-color: transparent;
+                  color: #000000;
+                "
+              /><br />
+              使用剂量：<input
+                type="text"
+                name="level"
+                style="
+                  width: 50px;
+                  border: none;
+                  border-bottom: 2px rgb(121, 121, 121) solid;
+                  background-color: transparent;
+                  color: #000000;
+                "
+              /><br />
+              <textarea
+                class="beizhu"
+                cols="20"
+                rows="3"
+                placeholder="备注："
+              ></textarea>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript">
+  function submit() {
+    document.patient_mess.action="/patient_mess/submit"
+    document.patient_mess.submit();
+  }
+
+  function search() {
+    document.patient_mess.action="/patient_mess/search"
+    document.patient_mess.submit();
+  }
+</script>
