@@ -5,14 +5,18 @@ import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dev'  # 等同于 app.secret_key = 'dev'
+showimg_path = './static/read_from_mysql.png'
+
+
 
 @app.route('/index')
 def index():
+    try:
+        os.remove(showimg_path)
+    except:
+        print("No Imgpath")
     return render_template('index.html',res = None)
 
-@app.route('/index/<name>')
-def rname(name):
-    return f'User:{escape(name)}'
 
 @app.route('/patient_mess/search',methods=["GET"])
 def search():
@@ -25,7 +29,6 @@ def search():
     cursor.execute(my_query, [curname])
     res = cursor.fetchall()
 
-    showimg_path = './static/read_from_mysql.png'
     if res:
         fout = open(showimg_path, 'wb')
         fout.write(res[0]['img'])
@@ -37,6 +40,15 @@ def search():
         finally:
             flash('No this patient name')
             return redirect(url_for('index')) 
+
+
+@app.route('/patient_mess/reset',methods=["GET","POST"])
+def reset():
+    try:
+        os.remove(showimg_path)
+    finally:
+        return render_template('index.html',res=None)
+
 
 
 if __name__ == '__main__':
