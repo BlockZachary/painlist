@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录注册界面</title>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+    <script type="application/javascript" src="{{ url_for('static',filename='jquery-3.6.0.js') }}"></script>
+</head>
+
+<body>
+<!-- 插入到页面标题上方 -->
+{% for message in get_flashed_messages() %}
+    <div class="alert">{{ message }}</div>
+{% endfor %}
+    <div class="container">
+        <div class="welcome">
+            <div class="pinkbox">
+                <!-- 注册 -->
+                <div class="signup nodisplay">
+                    <h1>注册</h1>
+                    <form autocapitalize="off" action="/register" method="get">
+                        <input name="username" type="text" placeholder="用户名">
+                        <input name="password" type="password" placeholder="密码">
+                        <input name="con_password" type="password" placeholder="确认密码">
+                        <button class="button submit">创建账户</button>
+                    </form>
+                </div>
+
+                <!-- 登录 -->
+                <div class="signin">
+                    <h1>登录</h1>
+                    <form class="more-padding" autocapitalize="off" action="/loginer" method="get">
+                        <input name="username" type="text" placeholder="用户名">
+                        <input name="password" type="password" placeholder="密码">
+                        <button class="bottom submit">登录</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="leftbox">
+                <h2 class="title"><span>痛疼识别</span>&<br>管理</h2>
+                <p class="desc">请注册您的 <span>账户</span></p>
+                <img class="flower smaller" src="{{ url_for('static',filename='flower smaller.webp') }}" />
+                <p class="account">已经有账号了?</p>
+                <button class="button" id="signin">登录</button>
+            </div>
+
+            <div class="rightbox">
+                <h2 class="title"><span>疼痛识别</span>&<br>管理</h2>
+                <p class="desc">请登录您的 <span>账户</span></p>
+                <img class="flower" src="{{ url_for('static',filename='flower.webp') }}" />
+                <p class="account">还没有账号?</p>
+                <button class="button" id="signup">注册</button>
+            </div>
+        </div>
+    </div>
+    <!-- partial -->
+    <!-- <script src='./jquery-3.6.0.js'></script> -->
+    <script type="application/javascript" src="{{ url_for('static',filename='script.js') }}">
+        // $('#signup').click(function () {
+        //     $('.pinkbox').css('transform', 'tranlateX(80%)');
+        //     $('.signin').addClass('nodisplay');
+        //     $('.signup').removeClass('nodisplay');
+        // })
+
+        // $('#signup').click(function () {
+        //     $('.pinkbox').css('transform', 'tranlateX(80%)');
+        //     $('.signin').addClass('nodisplay');
+        //     $('.signup').removeClass('nodisplay');
+        // })
+    </script>
+</body>
+
+</html>
+
+<script>
+    $(".alert").fadeOut(5000);
+</script>
